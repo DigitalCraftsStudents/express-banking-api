@@ -27,19 +27,41 @@ router
     .get('/banking', (req, res) => {
         res.json({
             banking: db.banking
-        })
+        });
     })    // READ banking value
-    .put('/banking', (req, res) => {})    // UPDATE banking value
+    .put('/banking', (req, res) => {
+        const { amount } = req.body;
+        db.banking = parseFloat(amount);
+        res.json({
+            banking: db.banking
+        });
+    })    // UPDATE banking value
     .get('/investment', (req, res) => {
         res.json({
             investment: db.investment
-        })
-    })    // READ banking value
-    .put('/investment', (req, res) => {})    // UPDATE banking value
+        });
+    })    // READ investment value
+    .put('/investment', (req, res) => {
+        const { amount } = req.body;
+        db.investment = parseFloat(amount);
+        res.json({
+            investment: db.investment
+        });
+    })    // UPDATE investment value
     .get('/transactions', (req, res) => {
         res.json({
             transactions: db.transactions
-        })
+        });
+    })
+    .post('/transactions', (req, res) => {
+        const tr = {
+            ...req.body,
+            amount: parseFloat(req.body.amount)
+        };
+        db.transactions.push(tr);
+        res.json({
+            transactions: db.transactions
+        });
     })
 
 app.use('/api', router);
