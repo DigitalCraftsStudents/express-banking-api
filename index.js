@@ -9,6 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const logger = morgan('dev');
 
+app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
@@ -23,6 +24,12 @@ const db = {
 };
 
 const router = express.Router();
+router.all('*', (req, res, next) => {
+    if (req.body) {
+        console.table(req.body);
+    }
+    next();
+});
 router
     .get('/banking', (req, res) => {
         res.json({
