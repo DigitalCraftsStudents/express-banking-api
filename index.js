@@ -14,13 +14,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 const db = {
-    banking: 2,
-    investment: 3,
+    banking: 200,
+    investment: 5000,
     transactions: [{
         type: 'investment/deposit',
-        amount: 3,
+        amount: 5000,
         date: (new Date()).toLocaleString()
-    }]
+    },
+    {
+        type: 'banking/deposit',
+        amount: 200,
+        date: (new Date()).toLocaleString()
+    }
+    ]
 };
 
 const router = express.Router();
@@ -31,6 +37,11 @@ router.all('*', (req, res, next) => {
     next();
 });
 router
+    .get('/', (req, res) => {
+        res.json({
+            ...db
+        });
+    })
     .get('/banking', (req, res) => {
         res.json({
             banking: db.banking
